@@ -4,7 +4,6 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="shortcut icon" href="" />
 		<link rel="stylesheet" href="../styles/styles.css" />
 		<link
 			rel="stylesheet"
@@ -14,6 +13,82 @@
 		<title>Weather App</title>
 	</head>
 	<body>
-		<div class="container"></div>
+		<!-- Main Container Start -->
+		<div class="container">
+			<!-- Current Weather Wrapper Start -->
+			<div id="weather-wrapper">
+				<p id="visibility"></p>
+				<p id="location"></p>
+				<p id="date"></p>
+				<p id="time"></p>
+				<p id="temp"></p>
+				<button id="temp-format"></button>
+				<img src="" alt="" id="current-weather" />
+				<!-- Search Box & Error Messages -->
+				<div>
+					<input type="text" id="search-box" placeholder="Search Location..." />
+					<img src="#" alt="search-icon" id="search-icon" />
+				</div>
+				<p id="error-message"></p>
+				<p id="suggestion"></p>
+			</div>
+
+			<!-- Current Precipitation, Feel, Humidity, Chance of Rain & Wind Speed -->
+			<div id="precipitation-wrapper">
+				<div id="feel">
+					<img
+						src="../assets/real-feel.svg"
+						alt="feel-img"
+						id="feel-img"
+						class="secondary-svg"
+					/>
+					<p>Feels Like</p>
+					<p>15</p>
+				</div>
+
+				<div id="humidity">
+					<img
+						src="../assets/thermometer.svg"
+						alt="humidity-img"
+						id="feel-img"
+						class="secondary-svg"
+					/>
+					<p>Humidity</p>
+					<p>52%</p>
+				</div>
+
+				<div id="chance-of-rain">
+					<img
+						src="../assets/rain.svg"
+						alt="rain-img"
+						id="feel-img"
+						class="secondary-svg"
+					/>
+					<p>Chance of Rain</p>
+					<p>11%</p>
+				</div>
+
+				<div id="wind-speed">
+					<img
+						src="../assets/wind.svg"
+						alt="wind-img"
+						id="feel-img"
+						class="secondary-svg"
+					/>
+					<p>Wind Speed</p>
+					<p>8.6km/h</p>
+				</div>
+			</div>
+			<!-- Current Weather Wrapper End -->
+
+			<div id="temp-track-wrapper">
+				<div class="button-wrapper">
+					<button id="daily">Daily</button>
+					<button id="hourly">Hourly</button>
+				</div>
+				<div id="daily-hourly-wrapper"></div>
+			</div>
+		</div>
+		<!-- Main Container End -->
 	</body>
 </html>
