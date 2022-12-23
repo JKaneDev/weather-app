@@ -1,3 +1,5 @@
+const moment = require('moment');
+
 // fetch weather data from api by location, return weather data for location in an object
 const API_KEY = '2b7df015d5d73cef01a306c61a9eb986';
 
@@ -52,6 +54,15 @@ async function getTempMinAndMax(location) {
     const _tempMax = _data['main'].temp_max;
 }
 
+async function getTime(location) {
+    const _data = await fetchDataByLocation(location);
+    const _timestamp = _data['dt'];
+    const _time = moment.unix(_timestamp).format('MMMM D, YYYY h:mma');
+    console.log(_time);
+
+    return _time;
+}
 
 
-export { fetchDataByLocation, getWindSpeed, getHumidity };
+
+export { getCurrentWeather, fetchDataByLocation, getWindSpeed, getHumidity, getTempMinAndMax, getTime };
