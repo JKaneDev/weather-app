@@ -24,18 +24,34 @@ async function fetchDataByLocation(location) {
 
 	return data;
 }
+async function getCurrentWeather(location) {
+    const _data = await fetchDataByLocation(location);
+    const _currentWeather = _data['weather'].main;
+    const _skies = _data['weather'].description;
+
+    return [_currentWeather, _skies];
+}
 
 async function getWindSpeed(location) {
 	const _data = await fetchDataByLocation(location);
 	const windSpeed = _data['wind'].speed;
 	console.log('wind', windSpeed);
+    return windSpeed;
 }
 
 async function getHumidity(location) {
     const _data = await fetchDataByLocation(location);
     const humidity = _data['main'].humidity;
     console.log('humidity', humidity);
+    return humidity;
 }
+
+async function getTempMinAndMax(location) {
+    const _data = await fetchDataByLocation(location);
+    const _tempMin = _data['main'].temp_min;
+    const _tempMax = _data['main'].temp_max;
+}
+
 
 
 export { fetchDataByLocation, getWindSpeed, getHumidity };
