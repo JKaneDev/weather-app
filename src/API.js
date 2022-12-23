@@ -11,25 +11,16 @@ async function fetchDataByLocation(location) {
 		`https://api.openweathermap.org/data/2.5/weather?q=${_location}&units=${_units}&appid=${API_KEY}`
 	);
 	const data = await response.json();
-	const atmos = data['main'];
-	const wind = data['wind'].speed;
-	const temp = atmos['temp'];
-	const humidity = atmos['humidity'];
-	const feel = atmos['feels_like'];
-
-	// console.log(data);
-	// console.log(atmos);
-	// console.log('temp', temp);
-	// console.log('humidity', humidity);
-	// console.log('feel', feel);
-	// console.log('wind', wind);
 
 	return data;
 }
 async function getCurrentWeather(location) {
     const _data = await fetchDataByLocation(location);
-    const _currentWeather = _data['weather'].main;
-    const _skies = _data['weather'].description;
+    const _currentWeather = _data['weather'][0].main;
+    const _skies = _data['weather'][0].description;
+
+    console.log('Current Weather', _currentWeather);
+    console.log('Skies', _skies);
 
     return [_currentWeather, _skies];
 }
@@ -39,6 +30,13 @@ async function getWindSpeed(location) {
 	const windSpeed = _data['wind'].speed;
 	console.log('wind', windSpeed);
     return windSpeed;
+}
+
+async function getRealFeel(location) {
+    const _data = await fetchDataByLocation(location);
+    const _realFeel = _data['main'].feels_like;
+    console.log('Real Feel', _realFeel);
+    return _realFeel;
 }
 
 async function getHumidity(location) {
@@ -65,4 +63,4 @@ async function getTime(location) {
 
 
 
-export { getCurrentWeather, fetchDataByLocation, getWindSpeed, getHumidity, getTempMinAndMax, getTime };
+export { getCurrentWeather, fetchDataByLocation, getWindSpeed, getHumidity, getTempMinAndMax, getTime, getRealFeel };
