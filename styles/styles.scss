@@ -1,5 +1,230 @@
 * {
-    box-sizing: border-box;
-    padding: 0;
-    margin: 0;
+	box-sizing: border-box;
+	padding: 0;
+	margin: 0;
+	font-family: 'Helvetica';
+	letter-spacing: 0.1rem;
+	color: white;
+}
+
+:root {
+	--container-main-color: #171717;
+	--subcontainer-main-color: #404040;
+	--subcontainer-secondary-color: #262626;
+	--container-alt-color: #d97706;
+	--font-main-color: #fafafa;
+	--transition-main: all 0.35s ease-in-out;
+	--shadow-main: var(--container-main-color) 0px 19px 38px,
+		var(--container-main-color) 0px 15px 12px;
+	--shadow-alt: var(--container-main-color) 4px 4px 20px;
+}
+
+body {
+	height: 100vh;
+	width: 100vw;
+	background-image: url(../assets/world.jpg);
+	background-size: cover;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.container {
+	height: 97%;
+	width: 97%;
+	background-color: rgb(0, 0, 0, 0.7);
+	padding: 2rem;
+	display: grid;
+    grid-template-columns: minmax(350px, 450px) 1fr minmax(350px, 450px);
+    grid-template-rows: 470px 1fr 200px;
+}
+
+.container button {
+    color: black;
+    padding: .25rem .5rem;
+}
+
+// START OF WEATHER WRAPPER STYLING //
+// START OF WEATHER WRAPPER STYLING //
+// START OF WEATHER WRAPPER STYLING //
+
+#weather-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    grid-column: 1 / 2;
+    gap: 1rem;
+    border: 1px solid white;
+    padding: 1rem;
+}
+
+#weather-wrapper #visibility {
+    font-size: 2rem;
+}
+
+#weather-wrapper #location {
+    font-style: italic;
+}
+
+#weather-wrapper #temp {
+    font-size: 4rem;
+    font-weight: bolder;
+    margin-top: .5rem;
+}
+
+#current-weather {
+    height: 100px;
+    width: 120px;
+}
+
+#weather-wrapper .search-button-wrapper {
+    display: flex;
+    margin-left: 2rem;
+}
+
+#search-box {
+    padding: .25rem .5rem;
+    appearance: none;
+    outline: none;
+    border: 1px solid var(--subcontainer-main-color);
+    color: black;
+    border-radius: 4px;
+    height: 35px;
+}
+
+#search-button {
+    position: relative;
+    left: -40px;
+    bottom: -1px;
+    height: 33px;
+    width: 46px;
+    border: none;
+    border-left: 1px solid var(--subcontainer-main-color);
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+#search-button svg {
+    cursor: pointer;
+    transition: var(--transition-main);
+}
+
+#search-button svg:hover {
+    transform: translateY(-2.5%);
+}
+
+#search-icon:hover {
+    transform: scale(1.2);
+    cursor: pointer;
+}
+
+#temp-format {
+    width: 100px;
+    border-radius: 4px;
+    transition: var(--transition-main);
+    appearance: none;
+    outline: none;
+    border: 1px solid var(--subcontainer-main-color)
+}
+
+#temp-format:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+
+// END OF WEATHER WRAPPER STYLING //
+// END OF WEATHER WRAPPER STYLING //
+// END OF WEATHER WRAPPER STYLING //
+
+// --------------------------------------- //
+
+// START OF PRECIPITATION WRAPPER STYLING //
+// START OF PRECIPITATION WRAPPER STYLING //
+// START OF PRECIPITATION WRAPPER STYLING //
+
+#precipitation-wrapper {
+    padding: .5rem 0 .5rem 3rem;
+    grid-column: 3 / 4;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2.5rem; 
+    border: 1px solid white; 
+}
+
+#precipitation-wrapper svg {
+    height: 32px;
+    width: 32px;
+    padding-top: .25rem;
+}
+
+#precipitation-wrapper .precip-info-container {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    margin-left: 1rem;
+}
+
+#precipitation-wrapper .precip-info-container p:nth-of-type(1) {
+    letter-spacing: .15rem;
+    font-size: 1.05rem;
+}
+
+#precipitation-wrapper .precip-info-container p:nth-of-type(2) {
+    margin-right: auto;
+    padding-left: .5rem;
+    font-weight: bolder;
+    font-style: italic;
+    letter-spacing: .15rem;
+}
+
+#precipitation-wrapper svg {
+    width: 50px;
+    height: 50px; 
+    fill: white;
+}
+
+#precipitation-wrapper div {
+    display: flex;
+    align-items: center;
+}
+
+#precipitation-wrapper div p:nth-of-type(1) {
+    margin: 0 1rem 0 .5rem;
+}
+
+// END OF PRECIPITATION WRAPPER STYLING //
+// END OF PRECIPITATION WRAPPER STYLING //
+// END OF PRECIPITATION WRAPPER STYLING //
+
+// ----------------------------------------- //
+
+// START OF TEMP TRACK WRAPPER STYLING //
+// START OF TEMP TRACK WRAPPER STYLING //
+// START OF TEMP TRACK WRAPPER STYLING //
+
+#temp-track-wrapper {
+    border: 1px solid white; 
+    padding: .5rem;
+    grid-row: 3 / 4;
+    grid-column: 1 / -1
+}
+
+#daily, #hourly {
+    width: 70px;
+    border-radius: 4px;
+    transition: var(--transition-main);
+    appearance: none;
+    outline: none;
+    border: 1px solid var(--subcontainer-main-color);
+    transition: var(--transition-main);
+}
+
+#daily:hover, #hourly:hover {
+    cursor: pointer;
+    transform: translateY(-5%);
 }
