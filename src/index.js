@@ -1,10 +1,16 @@
-import { fetchDataByLocation, getWindSpeed, getHumidity, getCurrentWeather, getTime } from './API';
+import styles from '../styles/styles.scss'
+import searchIcon from '../assets/search.svg';
+import { addListeners } from './Display.js'
+import {
+	fetchDataByLocation,
+	getWindSpeed,
+	getHumidity,
+	getCurrentWeather,
+	getTime,
+	getRealFeel,
+    getHourlyInfo,
+    getDailyInfo
+} from './API';
 
-// document.addEventListener('DOMContentLoaded', fetchDataByLocation);
-
-fetchDataByLocation('London, UK');
-getWindSpeed('London, UK');
-getHumidity('London, UK');
-getTime('London, UK');
-
+document.addEventListener('DOMContentLoaded', addListeners);
 
