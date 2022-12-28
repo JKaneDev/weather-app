@@ -81,8 +81,8 @@ async function getDailyInfo(location, units) {
 		if (i % 8 === 0) {
 			const dailyData = {
 				day: moment.unix(data.list[i].dt).format('ddd'),
-				temp: data.list[i]['main'].temp,
-				weather: data.list[i]['weather'][0].main,
+				maxTemp: data.list[i]['main'].temp_min.toFixed(0),
+				minTemp: data.list[i]['main'].temp_max.toFixed(0),
 				icon: data.list[i]['weather'][0].icon,
 			};
 			weeklyData.push(dailyData);

@@ -36,7 +36,7 @@ body {
 	padding: 2rem;
 	display: grid;
     grid-template-columns: minmax(350px, 450px) 1fr minmax(350px, 450px);
-    grid-template-rows: 470px 1fr 200px;
+    grid-template-rows: 500px 1fr 280px;
 }
 
 .container button {
@@ -55,20 +55,25 @@ body {
     align-items: center;
     grid-column: 1 / 2;
     gap: 1rem;
-    border: 1px solid white;
-    padding: 1rem;
+    background-color: rgb(0, 0, 0, 0.3);
+    border: 1px solid var(--font-main-color);
+    box-shadow: var(--shadow-main);
 }
 
-#weather-wrapper #visibility {
+#weather-wrapper #forecast {
     font-size: 2rem;
+    margin-top: 1.75rem;
+    color: var(--container-alt-color);
 }
 
 #weather-wrapper #location {
     font-style: italic;
+    letter-spacing: .2rem;
+    font-weight: bold;
 }
 
 #weather-wrapper #temp {
-    font-size: 4rem;
+    font-size: 3rem;
     font-weight: bolder;
     margin-top: .5rem;
 }
@@ -76,11 +81,12 @@ body {
 #current-weather {
     height: 100px;
     width: 120px;
+    margin-top: .5rem;
 }
 
 #weather-wrapper .search-button-wrapper {
     display: flex;
-    margin-left: 2rem;
+    margin: 1rem 0 0 2rem;
 }
 
 #search-box {
@@ -122,20 +128,6 @@ body {
     cursor: pointer;
 }
 
-#temp-format {
-    width: 100px;
-    border-radius: 4px;
-    transition: var(--transition-main);
-    appearance: none;
-    outline: none;
-    border: 1px solid var(--subcontainer-main-color)
-}
-
-#temp-format:hover {
-    cursor: pointer;
-    transform: scale(1.1);
-}
-
 // END OF WEATHER WRAPPER STYLING //
 // END OF WEATHER WRAPPER STYLING //
 // END OF WEATHER WRAPPER STYLING //
@@ -152,8 +144,10 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 2.5rem; 
-    border: 1px solid white; 
+    gap: 3rem; 
+    background-color: rgb(0, 0, 0, 0.3);
+    border: 1px solid var(--font-main-color);
+    box-shadow: var(--shadow-main);
 }
 
 #precipitation-wrapper svg {
@@ -167,6 +161,16 @@ body {
     flex-direction: column;
     gap: .5rem;
     margin-left: 1rem;
+}
+
+#precipitation-wrapper .wrappers .precip-info-container p:nth-of-type(1) {
+    font-size: 1.5ch;
+    font-weight: bold;
+    color: var(--container-alt-color);
+}
+
+#precipitation-wrapper .wrappers .precip-info-container p:nth-of-type(2) {
+    font-size: 2ch;
 }
 
 #precipitation-wrapper .precip-info-container p:nth-of-type(1) {
@@ -208,23 +212,85 @@ body {
 // START OF TEMP TRACK WRAPPER STYLING //
 
 #temp-track-wrapper {
-    border: 1px solid white; 
     padding: .5rem;
     grid-row: 3 / 4;
-    grid-column: 1 / -1
+    grid-column: 1 / -1;
+    background-color: rgb(0, 0, 0, 0.3);
+    border: 1px solid var(--font-main-color);
+    box-shadow: var(--shadow-main);
 }
 
-#daily, #hourly {
-    width: 70px;
-    border-radius: 4px;
-    transition: var(--transition-main);
+.button-wrapper {
+    margin-left: 1.1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+#daily, #hourly, #temp-format {
     appearance: none;
     outline: none;
-    border: 1px solid var(--subcontainer-main-color);
-    transition: var(--transition-main);
+    width: 110px;
+    color: var(--font-main-color);
+    border: 2px solid var(--font-main-color);
+    background-color: black;
+    border-radius: 2px;
+    padding: .25rem .5rem;
+    cursor: pointer;
+    transition: all .35s ease;
 }
 
-#daily:hover, #hourly:hover {
-    cursor: pointer;
+#daily:hover, #hourly:hover, #temp-format:hover {
+    border: 2px solid var(--container-alt-color);
+    color: var(--main-font-color);
     transform: translateY(-5%);
+}
+
+// HOURLY TEMPS //
+
+#temp-track-wrapper {
+    padding: 1rem;
+}
+
+#daily-hourly-wrapper {
+    display: flex; 
+    gap: .5rem;
+    padding: 1rem;
+}
+
+#daily-hourly-wrapper.daily {
+    justify-content: space-around;
+}
+
+.hour-day-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 160px;
+    height: 180px;
+    margin-top: .5rem;
+    padding-top: .25rem;
+    background-color: rgb(0, 0, 0, 0.4);
+    border-bottom: 2px solid var(--container-alt-color);
+    padding: .25rem;
+}
+
+.hour-day-wrapper.day {
+    height: 200px;
+}
+
+.date-time {
+    font-size: 2ch;
+    color: var(--container-alt-color);
+    margin-top: .25rem;
+}
+
+.hour-day-temp {
+    font-size: 3.5ch;
+    font-weight: bold;
+    margin-top: .25rem;
+}
+
+.hour-day-temp.min {
+    font-size: 1.4ch;
 }
