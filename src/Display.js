@@ -56,6 +56,9 @@ const getForecastFromInput = async () => {
 	const hourlyData = await getHourlyInfo(inputString, 'metric');
 	const dailyData = await getDailyInfo(inputString, 'metric');
 
+	//clear display of previous data and clear search bar
+	clearDisplay();
+    
 	//display info on screen
 	document.getElementById('forecast').innerText = `${description}`;
 	document.getElementById('location').innerText = `${location}`;
@@ -67,32 +70,53 @@ const getForecastFromInput = async () => {
 	document.getElementById('temp-min').innerText = `${tempMin}\u00B0C`;
 	document.getElementById('temp-max').innerText = `${tempMax}\u00B0C`;
 	document.getElementById('wind-speed').innerText = `${windSpeed}km/h`;
+    
+    renderHourlyData(hourlyData);
+};
 
+async function clearDisplay() {
 
-	// for (let data of hourlyData) {
-	// 	let wrapper = document.createElement('div');
-	// 	wrapper.classList.add('hour-day-wrapper');
+    const container = document.getElementById('daily-hourly-wrapper');  
 
-	// 	let hour = document.createElement('p');
-	// 	hour.innerText = data.time;
-	// 	hour.classList.add('date-time');
+    //iterate through all child nodes of the hourly/daily wrapper and remove all
+	if (container.classList.contains('rendered')) {
+        while (container.firstChild) {
+            container.removeChild(container.firstChild);
+        }
+        container.className = '';
+        document.getElementById('search-box').value = '';
+	}
+}
 
-	// 	let temp = document.createElement('p');
-	// 	temp.innerText = `${data.temp}\u00B0C`;
-	// 	temp.classList.add('hour-day-temp');
+async function renderHourlyData(hourlyData) {
+	for (let data of hourlyData) {
+		let wrapper = document.createElement('div');
+		wrapper.classList.add('hour-day-wrapper');
 
-	// 	let icon = document.createElement('img');
-    //     icon.classList.add('hour-day-icon');
-    //     icon.src = await getWeatherIcon(data.icon);
+		let hour = document.createElement('p');
+		hour.innerText = data.time;
+		hour.classList.add('date-time');
 
-	// 	wrapper.appendChild(hour);
-	// 	wrapper.appendChild(temp);
-	// 	wrapper.appendChild(icon);
+		let temp = document.createElement('p');
+		temp.innerText = `${data.temp}\u00B0C`;
+		temp.classList.add('hour-day-temp');
 
-    //     document.getElementById('daily-hourly-wrapper').appendChild(wrapper);
-	// }
+		let icon = document.createElement('img');
+		icon.classList.add('hour-day-icon');
+		icon.src = await getWeatherIcon(data.icon);
 
-    for (let data of dailyData) {
+		wrapper.appendChild(hour);
+		wrapper.appendChild(temp);
+		wrapper.appendChild(icon);
+
+		const container = document.getElementById('daily-hourly-wrapper');
+		container.classList.add('rendered', 'hourly');
+		document.getElementById('daily-hourly-wrapper').appendChild(wrapper);
+	}
+}
+
+async function renderDailyData(dailyData) {
+	for (let data of dailyData) {
 		let wrapper = document.createElement('div');
 		wrapper.classList.add('hour-day-wrapper', 'day');
 
@@ -109,18 +133,16 @@ const getForecastFromInput = async () => {
 		minTemp.classList.add('hour-day-temp', 'min');
 
 		let icon = document.createElement('img');
-        icon.classList.add('hour-day-icon');
-        icon.src = await getWeatherIcon(data.icon);
+		icon.classList.add('hour-day-icon');
+		icon.src = await getWeatherIcon(data.icon);
 
 		wrapper.appendChild(day);
 		wrapper.appendChild(maxTemp);
 		wrapper.appendChild(minTemp);
 		wrapper.appendChild(icon);
 
-        const container = document.getElementById('daily-hourly-wrapper');
-        container.classList.add('daily');
-        container.appendChild(wrapper);
+		const container = document.getElementById('daily-hourly-wrapper');
+		container.classList.add('rendered', 'daily');
+		container.appendChild(wrapper);
 	}
-
-	console.log(dailyData);
-};
+}
