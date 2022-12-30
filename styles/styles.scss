@@ -261,7 +261,38 @@ body {
     justify-content: space-around;
 }
 
-.hour-day-wrapper {
+.wrapper-hourly {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 160px;
+    height: 180px;
+    margin-top: .5rem;
+    padding-top: .25rem;
+    background-color: rgb(0, 0, 0, 0.4);
+    border-bottom: 2px solid var(--container-alt-color);
+    padding: .25rem;
+    height: 200px;
+}   
+
+.time-hourly {
+    font-size: 2ch;
+    color: var(--container-alt-color);
+    margin-top: .25rem;
+}
+
+.temp-hourly {
+    font-size: 3.5ch;
+    font-weight: bold;
+    margin-top: .25rem;
+}
+
+.icon-hourly {
+    font-size: 1.4ch;
+}
+
+.wrapper-daily {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -275,22 +306,28 @@ body {
     padding: .25rem;
 }
 
-.hour-day-wrapper.day {
+.wrapper-daily.active {
     height: 200px;
 }
 
-.date-time {
+.day-daily {
     font-size: 2ch;
     color: var(--container-alt-color);
     margin-top: .25rem;
 }
 
-.hour-day-temp {
-    font-size: 3.5ch;
+.temp-daily.max {
+    font-size: 3ch;
     font-weight: bold;
     margin-top: .25rem;
 }
 
-.hour-day-temp.min {
+.temp-daily.min {
+    font-size: 1.25ch;
+    font-weight: bold;
+    margin-top: .25rem;
+}
+
+.icon-daily {
     font-size: 1.4ch;
 }

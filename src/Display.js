@@ -22,12 +22,27 @@ import windSpeed from '../assets/anemometer.png';
 import defaultWeather from '../assets/overcast.png';
 
 export const addListeners = () => {
+	//when search button is clicked, forecast search is begun and rendered
 	document
 		.getElementById('search-button')
 		.addEventListener('click', getForecastFromInput);
+
+	//when enter is pressed and a valid location is present in the search box, forecast search is begun and rendered
 	document.getElementById('search-box').addEventListener('keydown', (e) => {
 		if (e.key === 'Enter') getForecastFromInput();
 	});
+
+	document.getElementById('daily').addEventListener('click', async (e) => {
+        // console.log(e.target.parentNode.parentNode);
+        const data = await getDailyInfo(e.target.parentNode.parentNode.dataset.location, 'metric')
+        renderDailyData(data);
+    });
+
+	document.getElementById('hourly').addEventListener('click', async (e) => {
+        // console.log(e.target.parentNode.parentNode);
+        const data = await getHourlyInfo(e.target.parentNode.parentNode.dataset.location, 'metric')
+        renderHourlyData(data);
+    });
 };
 
 export const loadImages = () => {
@@ -57,8 +72,8 @@ const getForecastFromInput = async () => {
 	const dailyData = await getDailyInfo(inputString, 'metric');
 
 	//clear display of previous data and clear search bar
-	clearDisplay();
-    
+	// clearDisplay();
+
 	//display info on screen
 	document.getElementById('forecast').innerText = `${description}`;
 	document.getElementById('location').innerText = `${location}`;
@@ -70,70 +85,99 @@ const getForecastFromInput = async () => {
 	document.getElementById('temp-min').innerText = `${tempMin}\u00B0C`;
 	document.getElementById('temp-max').innerText = `${tempMax}\u00B0C`;
 	document.getElementById('wind-speed').innerText = `${windSpeed}km/h`;
-    
-    renderHourlyData(hourlyData);
+    document.getElementById('daily-hourly-wrapper').classList.add('rendered');
+	document
+		.getElementById('temp-track-wrapper')
+		.setAttribute('data-location', `${location}`);
+
+	renderHourlyData(hourlyData);
 };
 
-async function clearDisplay() {
+function clearSearchBox() {
+	document.getElementById('search-box').innerText = '';
+}
 
-    const container = document.getElementById('daily-hourly-wrapper');  
+function clearDisplay() {
+	const container = document.getElementById('daily-hourly-wrapper');
 
-    //iterate through all child nodes of the hourly/daily wrapper and remove all
+	//iterate through all child nodes of the hourly/daily wrapper and remove all
 	if (container.classList.contains('rendered')) {
-        while (container.firstChild) {
-            container.removeChild(container.firstChild);
-        }
-        container.className = '';
-        document.getElementById('search-box').value = '';
+		while (container.firstChild) {
+			container.removeChild(container.firstChild);
+		}
+		container.className = '';
+		clearSearchBox();
 	}
 }
 
+// function clearHourlyDailyDisplay() {
+//     const tempWrappers = document.querySelectorAll('.temp-wrappers')
+//     console.log(tempWrappers);
+//     tempWrappers.forEach(wrapper => wrapper.remove());
+// 	document.getElementById('daily-hourly-wrapper').className = '';
+// }
+
 async function renderHourlyData(hourlyData) {
+	console.log(hourlyData);
+	const container = document.getElementById('daily-hourly-wrapper');
+
+	if (container.classList.contains('rendered')) {
+		clearDisplay();
+		container.classList.add('rendered');
+	}
+
 	for (let data of hourlyData) {
 		let wrapper = document.createElement('div');
-		wrapper.classList.add('hour-day-wrapper');
+		wrapper.classList.add('temp-wrapper', 'wrapper-hourly');
 
 		let hour = document.createElement('p');
 		hour.innerText = data.time;
-		hour.classList.add('date-time');
+		hour.classList.add('time-hourly');
 
 		let temp = document.createElement('p');
 		temp.innerText = `${data.temp}\u00B0C`;
-		temp.classList.add('hour-day-temp');
+		temp.classList.add('temp-hourly');
 
 		let icon = document.createElement('img');
-		icon.classList.add('hour-day-icon');
+		icon.classList.add('icon-hourly');
 		icon.src = await getWeatherIcon(data.icon);
 
 		wrapper.appendChild(hour);
 		wrapper.appendChild(temp);
 		wrapper.appendChild(icon);
 
-		const container = document.getElementById('daily-hourly-wrapper');
-		container.classList.add('rendered', 'hourly');
-		document.getElementById('daily-hourly-wrapper').appendChild(wrapper);
+        container.classList.add('hourly');
+		container.appendChild(wrapper);
 	}
 }
 
 async function renderDailyData(dailyData) {
+	console.log(dailyData);
+	const container = document.getElementById('daily-hourly-wrapper');
+
+	if (container.classList.contains('rendered')) {
+		clearDisplay();
+		container.classList.add('rendered');
+	}
+
 	for (let data of dailyData) {
 		let wrapper = document.createElement('div');
-		wrapper.classList.add('hour-day-wrapper', 'day');
+		wrapper.classList.add('temp-wrapper', 'wrapper-daily');
 
 		let day = document.createElement('p');
 		day.innerText = data.day;
-		day.classList.add('date-time');
+		day.classList.add('day-daily');
 
 		let maxTemp = document.createElement('p');
 		maxTemp.innerText = `${data.maxTemp}\u00B0C`;
-		maxTemp.classList.add('hour-day-temp', 'max');
+		maxTemp.classList.add('temp-daily', 'max');
 
 		let minTemp = document.createElement('p');
 		minTemp.innerText = `${data.minTemp}\u00B0C`;
-		minTemp.classList.add('hour-day-temp', 'min');
+		minTemp.classList.add('temp-daily', 'min');
 
 		let icon = document.createElement('img');
-		icon.classList.add('hour-day-icon');
+		icon.classList.add('icon-daily');
 		icon.src = await getWeatherIcon(data.icon);
 
 		wrapper.appendChild(day);
@@ -141,8 +185,7 @@ async function renderDailyData(dailyData) {
 		wrapper.appendChild(minTemp);
 		wrapper.appendChild(icon);
 
-		const container = document.getElementById('daily-hourly-wrapper');
-		container.classList.add('rendered', 'daily');
+        container.classList.add('daily');
 		container.appendChild(wrapper);
 	}
 }
