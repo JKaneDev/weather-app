@@ -17,18 +17,17 @@
 		<div class="container">
 			<!-- Current Weather Wrapper Start -->
 			<div id="weather-wrapper">
-				<p id="visibility"></p>
-				<p id="location"></p>
-				<p id="date"></p>
-				<p id="time"></p>
-				<p id="temp"></p>
-				<button id="temp-format"></button>
+				<p id="forecast">Clouds</p>
+				<p id="location">Belfast</p>
+				<p id="date">Saturday, December 31st, 2022, 17:46pm</p>
+				<p id="temp">4&deg;C</p>
+				<button id="temp-format">Toggle: &deg;C</button>
 				<img src="" alt="" id="current-weather" />
 				<!-- Search Box & Error Messages -->
-				<div>
+				<div class="search-button-wrapper">
 					<input type="text" id="search-box" placeholder="Search Location..." />
 					<button id="search-button">
-						<img src="../assets/search.svg" alt="search icon" />
+						<img src="" alt="search icon" id="search-icon" />
 					</button>
 				</div>
 				<p id="error-message"></p>
@@ -39,32 +38,42 @@
 			<div id="precipitation-wrapper">
 				<div>
 					<img src="" alt="real feel png" id="real-feel-img" />
-					<p>Feels Like</p>
-					<p id="feel">15&deg;C</p>
+					<div class="precip-info-container">
+						<p>Feels Like</p>
+						<p id="feel">15&deg;C</p>
+					</div>
 				</div>
 
 				<div>
 					<img src="" alt="humidity png" id="humidity-img" />
-					<p>Humidity</p>
-					<p id="humidity">52%</p>
+					<div class="precip-info-container">
+						<p>Humidity</p>
+						<p id="humidity">52%</p>
+					</div>
 				</div>
 
 				<div>
 					<img src="" alt="max temp png" id="temp-max-img" />
-					<p>Temperature Max</p>
-					<p id="temp-max">5&deg;C</p>
+					<div class="precip-info-container">
+						<p>Temperature Max</p>
+						<p id="temp-max">5&deg;C</p>
+					</div>
 				</div>
 
 				<div>
 					<img src="" alt="min temp png" id="temp-min-img" />
-					<p>Temperature Min</p>
-					<p id="temp-min">2&deg;C</p>
+					<div class="precip-info-container">
+						<p>Temperature Min</p>
+						<p id="temp-min">2&deg;C</p>
+					</div>
 				</div>
 
 				<div>
 					<img src="" alt="wind speed png" id="wind-speed-img" />
-					<p>Wind Speed</p>
-					<p id="wind-speed">8.6km/h</p>
+					<div class="precip-info-container">
+						<p>Wind Speed</p>
+						<p id="wind-speed">8.6km/h</p>
+					</div>
 				</div>
 			</div>
 			<!-- Current Weather Wrapper End -->
