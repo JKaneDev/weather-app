@@ -14,6 +14,7 @@ import {
 	getIconCode,
 	getWeatherIcon,
 } from './API.js';
+import { fahrenheitToCelsius, celsiusToFahrenheit } from './Utils.js';
 import humidity from '../assets/humidity.png';
 import tempMin from '../assets/temp-min.png';
 import tempMax from '../assets/temp-max.png';
@@ -33,16 +34,27 @@ export const addListeners = () => {
 	});
 
 	document.getElementById('daily').addEventListener('click', async (e) => {
-        // console.log(e.target.parentNode.parentNode);
-        const data = await getDailyInfo(e.target.parentNode.parentNode.dataset.location, 'metric')
-        renderDailyData(data);
-    });
+		// console.log(e.target.parentNode.parentNode);
+		const data = await getDailyInfo(
+			e.target.parentNode.parentNode.dataset.location,
+			'metric'
+		);
+		renderDailyData(data);
+	});
 
 	document.getElementById('hourly').addEventListener('click', async (e) => {
-        // console.log(e.target.parentNode.parentNode);
-        const data = await getHourlyInfo(e.target.parentNode.parentNode.dataset.location, 'metric')
-        renderHourlyData(data);
-    });
+		// console.log(e.target.parentNode.parentNode);
+		const data = await getHourlyInfo(
+			e.target.parentNode.parentNode.dataset.location,
+			'metric'
+		);
+		renderHourlyData(data);
+	});
+
+	//toggle whether temperatures are displayed in celsius or fahrenheit
+	document
+		.getElementById('temp-format')
+		.addEventListener('click', toggleTempFormat);
 };
 
 export const loadImages = () => {
@@ -69,10 +81,9 @@ const getForecastFromInput = async () => {
 	const tempMax = await getTempMax(inputString);
 	const windSpeed = await getWindSpeed(inputString);
 	const hourlyData = await getHourlyInfo(inputString, 'metric');
-	const dailyData = await getDailyInfo(inputString, 'metric');
 
 	//clear display of previous data and clear search bar
-	// clearDisplay();
+	clearDisplay();
 
 	//display info on screen
 	document.getElementById('forecast').innerText = `${description}`;
@@ -85,7 +96,7 @@ const getForecastFromInput = async () => {
 	document.getElementById('temp-min').innerText = `${tempMin}\u00B0C`;
 	document.getElementById('temp-max').innerText = `${tempMax}\u00B0C`;
 	document.getElementById('wind-speed').innerText = `${windSpeed}km/h`;
-    document.getElementById('daily-hourly-wrapper').classList.add('rendered');
+	document.getElementById('daily-hourly-wrapper').classList.add('rendered');
 	document
 		.getElementById('temp-track-wrapper')
 		.setAttribute('data-location', `${location}`);
@@ -94,7 +105,8 @@ const getForecastFromInput = async () => {
 };
 
 function clearSearchBox() {
-	document.getElementById('search-box').innerText = '';
+	const searchBox = document.getElementById('search-box');
+	searchBox.value = '';
 }
 
 function clearDisplay() {
@@ -109,13 +121,6 @@ function clearDisplay() {
 		clearSearchBox();
 	}
 }
-
-// function clearHourlyDailyDisplay() {
-//     const tempWrappers = document.querySelectorAll('.temp-wrappers')
-//     console.log(tempWrappers);
-//     tempWrappers.forEach(wrapper => wrapper.remove());
-// 	document.getElementById('daily-hourly-wrapper').className = '';
-// }
 
 async function renderHourlyData(hourlyData) {
 	console.log(hourlyData);
@@ -137,6 +142,7 @@ async function renderHourlyData(hourlyData) {
 		let temp = document.createElement('p');
 		temp.innerText = `${data.temp}\u00B0C`;
 		temp.classList.add('temp-hourly');
+		temp.setAttribute('data-type', 'temp');
 
 		let icon = document.createElement('img');
 		icon.classList.add('icon-hourly');
@@ -146,7 +152,7 @@ async function renderHourlyData(hourlyData) {
 		wrapper.appendChild(temp);
 		wrapper.appendChild(icon);
 
-        container.classList.add('hourly');
+		container.classList.add('hourly');
 		container.appendChild(wrapper);
 	}
 }
@@ -171,10 +177,12 @@ async function renderDailyData(dailyData) {
 		let maxTemp = document.createElement('p');
 		maxTemp.innerText = `${data.maxTemp}\u00B0C`;
 		maxTemp.classList.add('temp-daily', 'max');
+		maxTemp.setAttribute('data-type', 'temp');
 
 		let minTemp = document.createElement('p');
 		minTemp.innerText = `${data.minTemp}\u00B0C`;
 		minTemp.classList.add('temp-daily', 'min');
+		minTemp.setAttribute('data-type', 'temp');
 
 		let icon = document.createElement('img');
 		icon.classList.add('icon-daily');
@@ -185,7 +193,33 @@ async function renderDailyData(dailyData) {
 		wrapper.appendChild(minTemp);
 		wrapper.appendChild(icon);
 
-        container.classList.add('daily');
+		container.classList.add('daily');
 		container.appendChild(wrapper);
 	}
+}
+
+function toggleTempFormat() {
+	const temps = document.querySelectorAll(`[data-type="temp"]`);
+
+	temps.forEach((temp) => {
+		const text = temp.innerText;
+
+		if (text.includes('°C')) {
+
+			const celsiusMatch = text.match(/-?\d+(\.\d+)?/);
+			const celsius = celsiusMatch[0];
+			const fahrenheit = celsiusToFahrenheit(celsius);
+			temp.innerText = `${fahrenheit}°F`;
+
+		} 
+        
+        else if (text.includes('°F')) {
+
+			const fahrenheitMatch = text.match(/-?\d+(\.\d+)?/);
+			const fahrenheit = fahrenheitMatch[0];
+			const celsius = fahrenheitToCelsius(fahrenheit);
+			temp.innerText = `${celsius}°C`;
+		}
+
+	});
 }
