@@ -230,3 +230,5 @@ function toggleTempFormat() {
 	toggleBtn.innerText =
 		toggleBtn.innerText === 'Toggle: °C' ? 'Toggle: °F' : 'Toggle: °C';
 }
+
+export { renderHourlyData, clearDisplay };
