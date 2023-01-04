@@ -69,6 +69,8 @@ export const loadImages = () => {
 };
 
 const getForecastFromInput = async () => {
+	resetErrorMessage();
+
 	//fetch all forecast info
 	const inputString = document.getElementById('search-box').value;
 	const location = await getLocation(inputString);
@@ -83,7 +85,6 @@ const getForecastFromInput = async () => {
 	const tempMax = await getTempMax(inputString);
 	const windSpeed = await getWindSpeed(inputString);
 	const hourlyData = await getHourlyInfo(inputString, 'metric');
-	console.log(dateAndTime);
 
 	//clear display of previous data and clear search bar
 	clearDisplay();
@@ -106,6 +107,10 @@ const getForecastFromInput = async () => {
 
 	renderHourlyData(hourlyData);
 };
+
+function resetErrorMessage() {
+	document.getElementById('error-message').style.display = 'none';
+}
 
 function clearSearchBox() {
 	const searchBox = document.getElementById('search-box');
@@ -160,7 +165,6 @@ async function renderHourlyData(hourlyData) {
 }
 
 async function renderDailyData(dailyData) {
-	console.log(dailyData);
 	const container = document.getElementById('daily-hourly-wrapper');
 
 	if (container.classList.contains('rendered')) {

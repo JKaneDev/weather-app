@@ -7,12 +7,21 @@ async function fetchDataByLocation(loc) {
 	const units = 'metric';
 	const location = loc;
 
-	const response = await fetch(
-		`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${units}&appid=${API_KEY}`
-	);
-	const data = await response.json();
-
-	return data;
+	try {
+		const response = await fetch(
+			`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${units}&appid=${API_KEY}`
+		);
+		if (response.status === 404) {
+			// Display the error message to the user
+			document.getElementById('error-message').style.display = 'flex';
+		} else {
+			const data = await response.json();
+			return data;
+		}
+	} catch (error) {
+		// Handle other errors here
+		document.getElementById('error-message').style.display = 'flex';
+	}
 }
 
 async function getHourlyInfo(location, units) {
@@ -46,19 +55,6 @@ async function getLocation(location) {
 	const locationName = data.name;
 
 	return locationName;
-}
-
-async function getCoords(location, units) {
-	const response = await fetch(
-		`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${units}&appid=${API_KEY}`
-	);
-	const data = await response.json();
-
-	const coords = data.coord;
-	const latitude = coords.lat;
-	const longitude = coords.lon;
-
-	return { latitude, longitude };
 }
 
 async function getDateAndTime(location) {
