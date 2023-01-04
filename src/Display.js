@@ -21,6 +21,7 @@ import tempMax from '../assets/temp-max.png';
 import realFeel from '../assets/outdoor-feel.png';
 import windSpeed from '../assets/anemometer.png';
 import defaultWeather from '../assets/overcast.png';
+import searchIcon from '../assets/search.svg';
 
 export const addListeners = () => {
 	//when search button is clicked, forecast search is begun and rendered
@@ -64,6 +65,7 @@ export const loadImages = () => {
 	document.getElementById('temp-max-img').src = tempMax;
 	document.getElementById('real-feel-img').src = realFeel;
 	document.getElementById('wind-speed-img').src = windSpeed;
+	document.getElementById('search-icon').src = searchIcon;
 };
 
 const getForecastFromInput = async () => {
@@ -81,6 +83,7 @@ const getForecastFromInput = async () => {
 	const tempMax = await getTempMax(inputString);
 	const windSpeed = await getWindSpeed(inputString);
 	const hourlyData = await getHourlyInfo(inputString, 'metric');
+	console.log(dateAndTime);
 
 	//clear display of previous data and clear search bar
 	clearDisplay();
@@ -205,21 +208,19 @@ function toggleTempFormat() {
 		const text = temp.innerText;
 
 		if (text.includes('°C')) {
-
 			const celsiusMatch = text.match(/-?\d+(\.\d+)?/);
 			const celsius = celsiusMatch[0];
 			const fahrenheit = celsiusToFahrenheit(celsius);
 			temp.innerText = `${fahrenheit}°F`;
-
-		} 
-        
-        else if (text.includes('°F')) {
-
+		} else if (text.includes('°F')) {
 			const fahrenheitMatch = text.match(/-?\d+(\.\d+)?/);
 			const fahrenheit = fahrenheitMatch[0];
 			const celsius = fahrenheitToCelsius(fahrenheit);
 			temp.innerText = `${celsius}°C`;
 		}
-
 	});
+
+	const toggleBtn = document.getElementById('temp-format');
+	toggleBtn.innerText =
+		toggleBtn.innerText === 'Toggle: °C' ? 'Toggle: °F' : 'Toggle: °C';
 }
