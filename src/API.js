@@ -1,4 +1,4 @@
-const moment = require('moment');
+import moment from 'moment-timezone';
 
 // fetch weather data from api by location, return weather data for location in an object
 const API_KEY = '2b7df015d5d73cef01a306c61a9eb986';
@@ -33,7 +33,7 @@ async function getHourlyInfo(location, units) {
 				time: moment.unix(hour.dt).format('ha'),
 				forecast: hour['weather'][0].main,
 				tempMin: hour['main'].temp_min.toFixed(0),
-				icon: hour['weather'][0].icon
+				icon: hour['weather'][0].icon,
 			};
 			hourlyData.push(threeHour);
 		}
@@ -48,11 +48,26 @@ async function getLocation(location) {
 	return locationName;
 }
 
+async function getCoords(location, units) {
+	const response = await fetch(
+		`https://api.openweathermap.org/data/2.5/weather?q=${location}&units=${units}&appid=${API_KEY}`
+	);
+	const data = await response.json();
+
+	const coords = data.coord;
+	const latitude = coords.lat;
+	const longitude = coords.lon;
+
+	return { latitude, longitude };
+}
+
 async function getDateAndTime(location) {
 	const data = await fetchDataByLocation(location);
-	const dateAndTime = moment.unix(data.dt).format('dddd MMMM DD, YYYY, h:mma');
+	const timestamp = data.dt + data.timezone;
 
-	return dateAndTime;
+	let currentDate = moment.unix(timestamp).format('dddd, Do MMMM YYYY, h:mma');
+
+	return currentDate;
 }
 
 async function getCurrentTemp(location, units) {
@@ -143,35 +158,34 @@ async function getIconCode(location) {
 async function getWeatherIcon(iconCode) {
 	// Create an object that maps icon codes to their corresponding URL strings
 	const iconURLs = {
-	  '01d': 'https://openweathermap.org/img/wn/01d@2x.png',
-	  '01n': 'https://openweathermap.org/img/wn/01n@2x.png',
-	  '02d': 'https://openweathermap.org/img/wn/02d@2x.png',
-	  '02n': 'https://openweathermap.org/img/wn/02n@2x.png',
-	  '03d': 'https://openweathermap.org/img/wn/03d@2x.png',
-	  '03n': 'https://openweathermap.org/img/wn/03n@2x.png',
-	  '04d': 'https://openweathermap.org/img/wn/04d@2x.png',
-	  '04n': 'https://openweathermap.org/img/wn/04n@2x.png',
-	  '09d': 'https://openweathermap.org/img/wn/09d@2x.png',
-	  '09n': 'https://openweathermap.org/img/wn/09n@2x.png',
-	  '10d': 'https://openweathermap.org/img/wn/10d@2x.png',
-	  '10n': 'https://openweathermap.org/img/wn/10n@2x.png',
-	  '11d': 'https://openweathermap.org/img/wn/11d@2x.png',
-	  '11n': 'https://openweathermap.org/img/wn/11n@2x.png',
-	  '13d': 'https://openweathermap.org/img/wn/13d@2x.png',
-	  '13n': 'https://openweathermap.org/img/wn/13n@2x.png',
-	  '50d': 'https://openweathermap.org/img/wn/50d@2x.png',
-	  '50n': 'https://openweathermap.org/img/wn/50n@2x.png',
+		'01d': 'https://openweathermap.org/img/wn/01d@2x.png',
+		'01n': 'https://openweathermap.org/img/wn/01n@2x.png',
+		'02d': 'https://openweathermap.org/img/wn/02d@2x.png',
+		'02n': 'https://openweathermap.org/img/wn/02n@2x.png',
+		'03d': 'https://openweathermap.org/img/wn/03d@2x.png',
+		'03n': 'https://openweathermap.org/img/wn/03n@2x.png',
+		'04d': 'https://openweathermap.org/img/wn/04d@2x.png',
+		'04n': 'https://openweathermap.org/img/wn/04n@2x.png',
+		'09d': 'https://openweathermap.org/img/wn/09d@2x.png',
+		'09n': 'https://openweathermap.org/img/wn/09n@2x.png',
+		'10d': 'https://openweathermap.org/img/wn/10d@2x.png',
+		'10n': 'https://openweathermap.org/img/wn/10n@2x.png',
+		'11d': 'https://openweathermap.org/img/wn/11d@2x.png',
+		'11n': 'https://openweathermap.org/img/wn/11n@2x.png',
+		'13d': 'https://openweathermap.org/img/wn/13d@2x.png',
+		'13n': 'https://openweathermap.org/img/wn/13n@2x.png',
+		'50d': 'https://openweathermap.org/img/wn/50d@2x.png',
+		'50n': 'https://openweathermap.org/img/wn/50n@2x.png',
 	};
-  
+
 	// Look up the correct URL based on the provided icon code
 	const iconURL = iconURLs[iconCode];
-  
+
 	// Fetch the icon
 	const iconObject = await fetch(iconURL);
 
 	return iconObject.url;
-  }
-  
+}
 
 export {
 	getHourlyInfo,
@@ -187,5 +201,5 @@ export {
 	getTempMax,
 	getLocation,
 	getWeatherIcon,
-	getIconCode
+	getIconCode,
 };

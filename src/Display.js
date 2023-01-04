@@ -126,7 +126,6 @@ function clearDisplay() {
 }
 
 async function renderHourlyData(hourlyData) {
-	console.log(hourlyData);
 	const container = document.getElementById('daily-hourly-wrapper');
 
 	if (container.classList.contains('rendered')) {
@@ -203,15 +202,17 @@ async function renderDailyData(dailyData) {
 
 function toggleTempFormat() {
 	const temps = document.querySelectorAll(`[data-type="temp"]`);
-
 	temps.forEach((temp) => {
 		const text = temp.innerText;
 
+		//if current format is celsius, swap celsius value for fahrenheit value
 		if (text.includes('°C')) {
 			const celsiusMatch = text.match(/-?\d+(\.\d+)?/);
 			const celsius = celsiusMatch[0];
 			const fahrenheit = celsiusToFahrenheit(celsius);
 			temp.innerText = `${fahrenheit}°F`;
+
+			//if current format is fahrenheit, swap celsius value for celsius value
 		} else if (text.includes('°F')) {
 			const fahrenheitMatch = text.match(/-?\d+(\.\d+)?/);
 			const fahrenheit = fahrenheitMatch[0];
@@ -220,6 +221,7 @@ function toggleTempFormat() {
 		}
 	});
 
+	//handle toggle btn innerText upon click
 	const toggleBtn = document.getElementById('temp-format');
 	toggleBtn.innerText =
 		toggleBtn.innerText === 'Toggle: °C' ? 'Toggle: °F' : 'Toggle: °C';
