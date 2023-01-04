@@ -4,12 +4,6 @@
 		<meta charset="UTF-8" />
 		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<!-- <link rel="stylesheet" href="../styles/styles.css" /> -->
-		<link
-			rel="stylesheet"
-			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-		/>
-		<script src="./index.js" defer></script>
 		<title>Weather App</title>
 	</head>
 	<body>
@@ -20,7 +14,7 @@
 				<p id="forecast">Clouds</p>
 				<p id="location">Belfast</p>
 				<p id="date">Saturday, December 31st, 2022, 17:46pm</p>
-				<p id="temp">4&deg;C</p>
+				<p id="temp" data-type="temp">4&deg;C</p>
 				<button id="temp-format">Toggle: &deg;C</button>
 				<img src="" alt="" id="current-weather" />
 				<!-- Search Box & Error Messages -->
@@ -30,8 +24,7 @@
 						<img src="" alt="search icon" id="search-icon" />
 					</button>
 				</div>
-				<p id="error-message"></p>
-				<p id="suggestion"></p>
+				<p id="error-message">Location not found. Please try again.</p>
 			</div>
 
 			<!-- Current Precipitation, Feel, Humidity, Chance of Rain & Wind Speed -->
@@ -40,7 +33,7 @@
 					<img src="" alt="real feel png" id="real-feel-img" />
 					<div class="precip-info-container">
 						<p>Feels Like</p>
-						<p id="feel">15&deg;C</p>
+						<p id="feel" data-type="temp">15&deg;C</p>
 					</div>
 				</div>
 
@@ -48,7 +41,7 @@
 					<img src="" alt="humidity png" id="humidity-img" />
 					<div class="precip-info-container">
 						<p>Humidity</p>
-						<p id="humidity">52%</p>
+						<p id="humidity" data-type="temp">52%</p>
 					</div>
 				</div>
 
@@ -56,7 +49,7 @@
 					<img src="" alt="max temp png" id="temp-max-img" />
 					<div class="precip-info-container">
 						<p>Temperature Max</p>
-						<p id="temp-max">5&deg;C</p>
+						<p id="temp-max" data-type="temp">5&deg;C</p>
 					</div>
 				</div>
 
@@ -64,7 +57,7 @@
 					<img src="" alt="min temp png" id="temp-min-img" />
 					<div class="precip-info-container">
 						<p>Temperature Min</p>
-						<p id="temp-min">2&deg;C</p>
+						<p id="temp-min" data-type="temp">2&deg;C</p>
 					</div>
 				</div>
 
@@ -72,7 +65,7 @@
 					<img src="" alt="wind speed png" id="wind-speed-img" />
 					<div class="precip-info-container">
 						<p>Wind Speed</p>
-						<p id="wind-speed">8.6km/h</p>
+						<p id="wind-speed" data-type="temp">8.6km/h</p>
 					</div>
 				</div>
 			</div>
